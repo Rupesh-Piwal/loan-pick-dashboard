@@ -1,72 +1,63 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// schema.prisma
 
 generator client {
-  provider = "prisma-client"
-  output   = "../app/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
 }
 
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
 
-enum ProductType {
-  personal
-  education
-  vehicle
-  home
-  credit_line
-  debt_consolidation
+  orders Order[]
 }
-
-enum Role {
-  user
-  assistant
-}
-
 
 model Product {
-  id                 String    @id @default(uuid())
-  name               String
-  bank               String
-  type               ProductType
-  rate_apr           Decimal
-  min_income         Decimal
-  min_credit_score   Int
-  tenure_min_months  Int       @default(6)
-  tenure_max_months  Int       @default(60)
-  processing_fee_pct Decimal   @default(0)
-  prepayment_allowed Boolean   @default(true)
-  disbursal_speed    String    @default("standard")
-  docs_level         String    @default("standard")
-  summary            String?
-  faq                Json      @default("[]")
-  terms              Json      @default("{}")
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  imageUrl    String?
+  price       Decimal  @db.Decimal(10, 2)
+  stock       Int
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
 
-  ai_chat_messages   AiChatMessage[]
+  orderItems OrderItem[]
 }
 
-model User {
-  id           String           @id @default(uuid())
-  email        String           @unique
-  display_name String?
+model Order {
+  id          String      @id @default(uuid())
+  userId      String
+  status      OrderStatus @default(PENDING)
+  totalAmount Decimal     @db.Decimal(10, 2)
+  createdAt   DateTime    @default(now())
 
-  ai_chat_messages AiChatMessage[]
+  user       User        @relation(fields: [userId], references: [id])
+  orderItems OrderItem[]
 }
 
-model AiChatMessage {
-  id         String  @id @default(uuid())
-  role       Role
-  content    String
-  created_at DateTime @default(now())
+model OrderItem {
+  id              String  @id @default(uuid())
+  orderId         String
+  productId       String
+  quantity        Int
+  priceAtPurchase Decimal @db.Decimal(10, 2)
 
-  user_id    String?
-  product_id String?
+  order   Order   @relation(fields: [orderId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
 
-  user       User?    @relation(fields: [user_id], references: [id])
-  product    Product? @relation(fields: [product_id], references: [id])
+  @@unique([orderId, productId]) // prevents duplicate product in same order
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  SHIPPED
+  CANCELLED
 }
