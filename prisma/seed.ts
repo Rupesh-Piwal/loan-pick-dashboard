@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
-
 import { PrismaPg } from "@prisma/adapter-pg";
 
 const adapter = new PrismaPg({
@@ -12,11 +11,15 @@ const prisma = new PrismaClient({ adapter });
 async function main() {
   console.log("🌱 Seeding started...");
 
-  //   Clear existing data (optional for dev)
-  await prisma.orderItem.deleteMany();
-  await prisma.order.deleteMany();
-  await prisma.product.deleteMany();
-  await prisma.user.deleteMany();
+  // Clear existing data safely using transaction
+  await prisma.$transaction([
+    prisma.orderItem.deleteMany(),
+    prisma.order.deleteMany(),
+    prisma.product.deleteMany(),
+    prisma.user.deleteMany(),
+  ]);
+
+  console.log("🧹 Old data cleared.");
 
   // Hash password
   const hashedPassword = await bcrypt.hash("password123", 10);
@@ -38,14 +41,16 @@ async function main() {
     },
   });
 
-  // Create Products
-  const products = await prisma.product.createMany({
+  console.log("👤 Users created.");
+
+  // Real UI Products (keep these for frontend realism)
+  await prisma.product.createMany({
     data: [
       {
         name: "Wireless Mouse",
         description: "Ergonomic wireless mouse",
         imageUrl:
-          "https://images.unsplash.com/photo-1527814050087-3793815479db?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8d2lyZWxlc3MlMjBtb3VzZXxlbnwwfHwwfHx8MA%3D%3D",
+          "https://images.unsplash.com/photo-1527814050087-3793815479db?w=600",
         price: 799.99,
         stock: 50,
       },
@@ -53,7 +58,7 @@ async function main() {
         name: "Mechanical Keyboard",
         description: "RGB mechanical keyboard",
         imageUrl:
-          "https://images.unsplash.com/photo-1626958390898-162d3577f293?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHJnYiUyMGtleWJvYXJkfGVufDB8fDB8fHww",
+          "https://images.unsplash.com/photo-1626958390898-162d3577f293?w=600",
         price: 2499.0,
         stock: 30,
       },
@@ -61,7 +66,7 @@ async function main() {
         name: "Noise Cancelling Headphones",
         description: "Over-ear bluetooth headphones",
         imageUrl:
-          "https://images.unsplash.com/photo-1765279360461-e6b8199b906c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjd8fE5vaXNlJTIwQ2FuY2VsbGluZyUyMEhlYWRwaG9uZXN8ZW58MHx8MHx8fDA%3D",
+          "https://images.unsplash.com/photo-1765279360461-e6b8199b906c?w=600",
         price: 4999.5,
         stock: 20,
       },
@@ -69,21 +74,43 @@ async function main() {
         name: "USB-C Charger",
         description: "Fast charging 65W adapter",
         imageUrl:
-          "https://images.unsplash.com/photo-1731616103600-3fe7ccdc5a59?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8VVNCLUMlMjBDaGFyZ2VyfGVufDB8fDB8fHww",
+          "https://images.unsplash.com/photo-1731616103600-3fe7ccdc5a59?w=600",
         price: 1299.0,
         stock: 40,
       },
     ],
   });
 
-  console.log("✅ Users created:", user1.email, user2.email);
-  console.log("✅ Products seeded:", products.count);
-  console.log("🌱 Seeding finished.");
+  console.log("🛍️ Real products inserted.");
+
+  // Generate bulk products for pagination + index testing
+  const bulkProducts = [];
+
+  for (let i = 0; i < 5000; i++) {
+    bulkProducts.push({
+      name: `Product ${i}`,
+      description: `Description for product ${i}`,
+      imageUrl: `https://picsum.photos/seed/${i}/600/400`,
+      price: Math.floor(Math.random() * 10000) + 100, // 100 - 10100
+      stock: Math.floor(Math.random() * 100), // 0 - 99
+      createdAt: new Date(
+        Date.now() - Math.floor(Math.random() * 1000 * 60 * 60 * 24 * 365),
+      ), // Random date within last 1 year
+    });
+  }
+
+  await prisma.product.createMany({
+    data: bulkProducts,
+  });
+
+  console.log("📦 5000 bulk products inserted.");
+
+  console.log("✅ Seeding finished successfully.");
 }
 
 main()
   .catch((e) => {
-    console.error(e);
+    console.error("❌ Seeding error:", e);
     process.exit(1);
   })
   .finally(async () => {
