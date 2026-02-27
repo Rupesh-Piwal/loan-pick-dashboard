@@ -1,6 +1,22 @@
-export function GET(){
-    //TODO-1: fetch all the products in decreasing order using query inside try block.
-    // return the response with a status code.
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 
-    //TODO-2: handle error in catch block with a status code.
+export async function GET() {
+  try {
+    const products = await prisma.product.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    console.log("PRODUCTS: ", products);
+
+    return NextResponse.json(products, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 },
+    );
+  }
 }
