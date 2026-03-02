@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import jwt from "jsonwebtoken";
 
-const ACCESS_SECRET = process.env.ACCESS_TOKEN_SECRET!;
+import { verifyAccessToken } from "@/lib/jwt";
 
 export function middleware(request: NextRequest) {
+  console.log("MIDDLEWARE HIT:", request.nextUrl.pathname);
   const token = request.cookies.get("accessToken")?.value;
 
   // If no token → redirect to login
@@ -13,7 +13,7 @@ export function middleware(request: NextRequest) {
   }
 
   try {
-    jwt.verify(token, ACCESS_SECRET);
+    verifyAccessToken(token);
     return NextResponse.next(); // allow request
   } catch {
     return NextResponse.redirect(new URL("/login", request.url));
@@ -21,9 +21,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/((?!login|register).*)",
-    "/products/:path*",
-    "/api/products/:path*",
-  ],
+  matcher: ["/products/:path*", "/api/products/:path*"],
 };
