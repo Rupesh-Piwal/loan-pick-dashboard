@@ -1,24 +1,27 @@
 import { NextResponse } from "next/server";
-import { generateAccessToken, generateRefreshToken } from "@/lib/jwt";
 import { userService } from "@/app/services/user.services";
 
 export async function POST(req: Request) {
   try {
     const { email, password } = await req.json();
 
-    const user = await userService.login(email, password);
+    const {
+      id,
+      email: userEmail,
+      token,
+    } = await userService.login(email, password);
 
-    const accessToken = generateAccessToken(user.id);
-    const refreshToken = generateRefreshToken(user.id);
+    const response = NextResponse.json(
+      { id, email: userEmail },
+      { status: 200 },
+    );
 
-    const response = NextResponse.json({ accessToken }, { status: 200 });
-
-    response.cookies.set("refreshToken", refreshToken, {
+    response.cookies.set("accessToken", token, {
       httpOnly: true,
-      secure: false, // change to true in production
-      sameSite: "strict",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
       path: "/",
-      maxAge: 60 * 60 * 24 * 7, // 7 days
+      maxAge: 60 * 15,
     });
 
     return response;

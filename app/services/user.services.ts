@@ -1,3 +1,4 @@
+import { generateAccessToken } from "@/lib/jwt";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcrypt";
 
@@ -38,6 +39,7 @@ export const userService = {
       throw new Error("Invalid credentials");
     }
 
-    return user;
+    const token = generateAccessToken(user.id);
+    return { id: user.id, email: user.email, token };
   },
 };

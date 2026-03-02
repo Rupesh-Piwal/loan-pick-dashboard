@@ -1,5 +1,3 @@
-// services/product.service.ts
-
 import { prisma } from "@/lib/prisma";
 
 export const productService = {

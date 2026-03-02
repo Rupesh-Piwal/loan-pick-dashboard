@@ -9,8 +9,6 @@ export async function GET() {
       },
     });
 
-    console.log("PRODUCTS: ", products);
-
     return NextResponse.json(products, { status: 200 });
   } catch (error) {
     console.error("Error fetching products:", error);
