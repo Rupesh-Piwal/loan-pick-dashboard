@@ -22,6 +22,7 @@ export default function LoginPage() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
+      credentials: "include",
     });
 
     if (!res.ok) {
@@ -29,9 +30,9 @@ export default function LoginPage() {
       toast.error(data.error);
       return;
     }
+    router.push("/products");
 
     toast.success("Registration successful!");
-    router.push("/products");
     toast.success("Welcome Back!!!!");
   };
 
