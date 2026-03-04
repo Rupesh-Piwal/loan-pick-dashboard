@@ -17,18 +17,18 @@ function getStockStatus(stock: number) {
   if (stock > 10)
     return {
       label: "In Stock",
-      styles: "bg-green-50 text-green-700 border border-green-200",
+      styles: "bg-emerald-900/40 text-emerald-300 border border-emerald-700/40",
     };
 
   if (stock > 0)
     return {
       label: "Low Stock",
-      styles: "bg-yellow-50 text-yellow-700 border border-yellow-200",
+      styles: "bg-yellow-900/40 text-yellow-300 border border-yellow-700/40",
     };
 
   return {
     label: "Out of Stock",
-    styles: "bg-red-50 text-red-700 border border-red-200",
+    styles: "bg-red-900/40 text-red-300 border border-red-700/40",
   };
 }
 
@@ -36,38 +36,45 @@ export function ProductCard({ product }: Props) {
   const { label, styles } = getStockStatus(product.stock);
 
   return (
-    <div className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-      <div className="relative aspect-video bg-gray-50">
+    <div className="group bg-gray-950 border border-gray-800 rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-gray-700 hover:shadow-2xl">
+      {/* Image */}
+      <div className="relative aspect-video bg-gray-900 overflow-hidden">
         {product.imageUrl ? (
           <Image
             src={product.imageUrl}
             alt={product.name}
             fill
-            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <Package className="w-12 h-12 text-gray-300" />
+            <Package className="w-10 h-10 text-gray-600" />
           </div>
         )}
 
-        <div className="absolute top-4 right-4">
+        {/* Stock badge */}
+        <div className="absolute top-3 right-3">
           <span
-            className={`px-3 py-1.5 rounded-full text-xs font-medium backdrop-blur-md ${styles}`}
+            className={`px-3 py-1 rounded-full text-xs font-medium backdrop-blur-md ${styles}`}
           >
             {label}
           </span>
         </div>
       </div>
 
-      <div className="p-6 flex flex-col">
-        <h3 className="text-lg font-semibold mb-4 line-clamp-1">
+      {/* Content */}
+      <div className="p-5 flex flex-col">
+        <h3 className="text-white text-base font-semibold mb-4 line-clamp-1">
           {product.name}
         </h3>
 
-        <div className="pt-4 border-t border-gray-100">
-          <span className="text-lg font-bold">
+        <div className="border-t border-gray-800 pt-4 flex items-center justify-between">
+          <span className="text-lg font-bold text-white tracking-tight">
             ${Number(product.price).toFixed(2)}
+          </span>
+
+          <span className="text-xs text-gray-500">
+            {product.stock} available
           </span>
         </div>
       </div>

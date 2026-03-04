@@ -28,7 +28,7 @@ export default async function Page({ searchParams }: PageProps) {
   const pages = getPages(page, totalPages);
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-gray-50 to-white">
+    <div className="min-h-screen bg-[#1c1c1c]">
       <Header count={products.length} />
 
       <div className="max-w-7xl mx-auto px-4 py-8">

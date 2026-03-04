@@ -1,5 +1,3 @@
-// _components/pagination.tsx
-
 import Link from "next/link";
 
 type Props = {
@@ -12,29 +10,35 @@ export function Pagination({ page, totalPages, pages }: Props) {
   if (totalPages <= 1) return null;
 
   return (
-    <div className="flex justify-center gap-2 mt-10 flex-wrap">
+    <div className="flex justify-center items-center gap-2 mt-12 flex-wrap">
+      {/* Prev */}
       <Link
         href={`?page=${Math.max(1, page - 1)}`}
-        className={`px-4 py-2 rounded-lg border text-sm ${
-          page === 1 ? "pointer-events-none opacity-50" : "hover:bg-gray-100"
+        className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200
+        ${
+          page === 1
+            ? "pointer-events-none opacity-30 bg-gray-800 text-gray-500"
+            : "bg-gray-900 text-gray-200 hover:bg-gray-800 hover:text-white"
         }`}
       >
         Prev
       </Link>
 
+      {/* Page Numbers */}
       {pages.map((p, index) =>
         p === "..." ? (
-          <span key={index} className="px-3 py-2 text-gray-400">
+          <span key={index} className="px-3 py-2 text-gray-500 text-sm">
             ...
           </span>
         ) : (
           <Link
             key={p}
             href={`?page=${p}`}
-            className={`px-4 py-2 rounded-lg border text-sm ${
+            className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200
+            ${
               p === page
-                ? "bg-gray-900 text-white border-gray-900"
-                : "hover:bg-gray-100"
+                ? "bg-black text-white shadow-lg"
+                : "bg-gray-900 text-gray-300 hover:bg-gray-800 hover:text-white"
             }`}
           >
             {p}
@@ -42,12 +46,14 @@ export function Pagination({ page, totalPages, pages }: Props) {
         ),
       )}
 
+      {/* Next */}
       <Link
         href={`?page=${Math.min(totalPages, page + 1)}`}
-        className={`px-4 py-2 rounded-lg border text-sm ${
+        className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200
+        ${
           page === totalPages
-            ? "pointer-events-none opacity-50"
-            : "hover:bg-gray-100"
+            ? "pointer-events-none opacity-30 bg-gray-800 text-gray-500"
+            : "bg-gray-900 text-gray-200 hover:bg-gray-800 hover:text-white"
         }`}
       >
         Next
