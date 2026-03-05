@@ -17,8 +17,8 @@ export function Pagination({ page, totalPages, pages }: Props) {
         className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200
         ${
           page === 1
-            ? "pointer-events-none opacity-30 bg-gray-800 text-gray-500"
-            : "bg-gray-900 text-gray-200 hover:bg-gray-800 hover:text-white"
+            ? "pointer-events-none opacity-30 bg-white text-gray-900"
+            : "bg-white text-gray-700 hover:bg-white hover:text-gray-800"
         }`}
       >
         Prev
@@ -37,8 +37,8 @@ export function Pagination({ page, totalPages, pages }: Props) {
             className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200
             ${
               p === page
-                ? "bg-black text-white shadow-lg"
-                : "bg-gray-900 text-gray-300 hover:bg-gray-800 hover:text-white"
+                ? "bg-white text-black shadow-lg"
+                : "bg-white text-gray-900 hover:bg-white/80 hover:text-black"
             }`}
           >
             {p}
@@ -52,8 +52,8 @@ export function Pagination({ page, totalPages, pages }: Props) {
         className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200
         ${
           page === totalPages
-            ? "pointer-events-none opacity-30 bg-gray-800 text-gray-500"
-            : "bg-gray-900 text-gray-200 hover:bg-gray-800 hover:text-white"
+            ? "pointer-events-none opacity-30 bg-white text-white"
+            : "bg-white text-gray-900 hover:bg-white hover:text-gray-800"
         }`}
       >
         Next
