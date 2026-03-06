@@ -1,4 +1,4 @@
-// _components/product-grid.tsx
+
 
 import { ProductCard } from "./product-card";
 

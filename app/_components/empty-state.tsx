@@ -1,4 +1,4 @@
-// _components/empty-state.tsx
+
 
 import { Package } from "lucide-react";
 

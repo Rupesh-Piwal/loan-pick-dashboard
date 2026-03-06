@@ -1,4 +1,4 @@
-// _components/product-card.tsx
+
 
 import Image from "next/image";
 import { Package } from "lucide-react";
