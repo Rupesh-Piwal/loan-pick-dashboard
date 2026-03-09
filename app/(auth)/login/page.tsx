@@ -38,10 +38,10 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      {/* Login Card */}
+     
       <div className="relative w-full max-w-md">
         <div className="bg-white rounded-2xl shadow-[0_8px_40px_-12px_rgba(0,0,0,0.2)] border border-gray-100 p-8">
-          {/* Header */}
+          
           <div className="text-center mb-8">
             <h1 className="text-3xl font-light tracking-tight text-gray-900">
               Welcome back
@@ -51,9 +51,8 @@ export default function LoginPage() {
             </p>
           </div>
 
-          {/* Form */}
           <form onSubmit={loginUser} className="space-y-5">
-            {/* Email Field */}
+           
             <div className="space-y-1.5">
               <label
                 htmlFor="email"
@@ -72,7 +71,7 @@ export default function LoginPage() {
               />
             </div>
 
-            {/* Password Field */}
+           
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <label
@@ -93,7 +92,7 @@ export default function LoginPage() {
               />
             </div>
 
-            {/* Submit Button */}
+           
             <button
               type="submit"
               className="w-full py-2.5 px-4 bg-gray-900 hover:bg-gray-800 text-white font-medium rounded-lg shadow-sm transition-colors"
@@ -102,7 +101,7 @@ export default function LoginPage() {
             </button>
           </form>
 
-          {/* Sign Up Link */}
+         
           <p className="mt-8 text-center text-sm text-gray-500">
             Don't have an account?{" "}
             <Link

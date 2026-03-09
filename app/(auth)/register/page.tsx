@@ -32,15 +32,13 @@ export default function RegisterPage() {
     }
 
     toast.success("Registration successful!");
-    router.push("/login"); // 👈 redirect
+    router.push("/login");
   };
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      {/* Register Card */}
       <div className="relative w-full max-w-md">
         <div className="bg-white rounded-2xl shadow-[0_8px_40px_-12px_rgba(0,0,0,0.2)] border border-gray-100 p-8">
-          {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-3xl font-light tracking-tight text-gray-900">
               Create an account
@@ -50,9 +48,8 @@ export default function RegisterPage() {
             </p>
           </div>
 
-          {/* Form */}
           <form onSubmit={registerUser} className="space-y-5">
-            {/* Email Field */}
+     
             <div className="space-y-1.5">
               <label
                 htmlFor="email"
@@ -71,7 +68,7 @@ export default function RegisterPage() {
               />
             </div>
 
-            {/* Password Field */}
+            
             <div className="space-y-1.5">
               <label
                 htmlFor="password"
@@ -90,14 +87,14 @@ export default function RegisterPage() {
               />
             </div>
 
-            {/* Submit Button */}
+ 
             <button
               type="submit"
               className="w-full py-2.5 px-4 bg-gray-900 hover:bg-gray-800 text-white font-medium rounded-lg shadow-sm transition-colors"
             >
               Create account
             </button>
-            {/* Sign In Link */}
+    
             <p className="text-center text-sm text-gray-500">
               Already have an account?{" "}
               <Link
