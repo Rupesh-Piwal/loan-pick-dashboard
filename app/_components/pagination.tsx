@@ -11,7 +11,6 @@ export function Pagination({ page, totalPages, pages }: Props) {
 
   return (
     <div className="flex justify-center items-center gap-2 mt-12 flex-wrap">
-      {/* Prev */}
       <Link
         href={`?page=${Math.max(1, page - 1)}`}
         className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200
@@ -24,7 +23,6 @@ export function Pagination({ page, totalPages, pages }: Props) {
         Prev
       </Link>
 
-      {/* Page Numbers */}
       {pages.map((p, index) =>
         p === "..." ? (
           <span key={index} className="px-3 py-2 text-gray-500 text-sm">
@@ -38,7 +36,7 @@ export function Pagination({ page, totalPages, pages }: Props) {
             ${
               p === page
                 ? "bg-white text-black shadow-lg"
-                : "bg-white text-gray-900 hover:bg-white/80 hover:text-black"
+                : "bg-white/60 text-gray-900 hover:bg-white/80 hover:text-black"
             }`}
           >
             {p}
@@ -46,7 +44,6 @@ export function Pagination({ page, totalPages, pages }: Props) {
         ),
       )}
 
-      {/* Next */}
       <Link
         href={`?page=${Math.min(totalPages, page + 1)}`}
         className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200

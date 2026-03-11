@@ -1,5 +1,3 @@
-// app/products/page.tsx
-
 export const dynamic = "force-dynamic";
 
 import { EmptyState } from "../_components/empty-state";
