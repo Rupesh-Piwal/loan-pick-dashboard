@@ -44,7 +44,7 @@ export default function LoginPage() {
           
           <div className="text-center mb-8">
             <h1 className="text-3xl font-light tracking-tight text-gray-900">
-              Welcome back
+              Welcome back!
             </h1>
             <p className="text-gray-500 mt-2 text-sm">
               Please enter your details to sign in
